@@ -1,23 +1,31 @@
 This file is the CodeBook and describes the data in the tidy data set.
 
-Excerpt taken from the provided documentation about the experiment (See README.txt):
+Excerpt taken from the provided documentation about the experiment (See README.txt for further details):
 
-"The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data."
+"The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz."
 
 ====
-For the purposes of the tidy data set, we extracted only those features that contained either the word "mean" or "std" is their description.  The list is as follows:
+For the purposes of the tidy data set, I extracted only those features that contained either the word "mean" or "std" is their description.  These variables refer to the mean ("mean") or standard deviation ("std") of underlying feature.   The list is as follows:
 
- [1] "SubjectID":
+ [1] "SubjectID":  Integer
  This is the ID code of the subject wearing the smartphone in the experiment.
+ Range 1-30.
  
- [2] "ActivityID":
+ [2] "ActivityID":  Integer
  This is the ID code of the activity being performed by the subject.
+ 1 WALKING
+ 2 WALKING_UPSTAIRS
+ 3 WALKING_DOWNSTAIRS
+ 4 SITTING
+ 5 STANDING
+ 6 LAYING
  
- [3] "DescriptiveLabels" 
+ [3] "DescriptiveLabels":  Factor/Character String
  This is the activity label (in English) corresponding to the ActivityID.
+ Values: WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING
  
 The remaining variables are described in more detail in the file "features_info.txt"
-However, it should be noted that each of these features have been normalized to the range of [-1,1] and are thus unitless.  This list is as follows:
+However, it should be noted that each of these numerical features have been normalized to the range of [-1,1] and are thus unitless.  It should be noted that the results in the tidy data set are the means of each of the below quantities, for each combination of SubjectID and ActivityID.  This list is as follows:
  
  [4] "tBodyAcc-mean()-X"              
  [5] "tBodyAcc-mean()-Y"              

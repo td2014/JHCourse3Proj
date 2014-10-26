@@ -10,7 +10,6 @@
 #
 
 rm(list = ls())
-library(plyr) # based on "tidy data" readings from course
 setwd("~/Desktop/OnlineCourses/JohnsHopkins_DataScienceTrack/DataScienceToolbox_Course3_GettingData/CourseProject")
 
 #
@@ -41,6 +40,7 @@ names(trainDataActivityID) <- c("ActivityID")
 #
 
 activityDescriptiveLabelList <- read.table("./UCI HAR Dataset/activity_labels.txt", header=FALSE, sep="", stringsAsFactors=FALSE)
+# Create a new column that converts activityID to descriptive English name
 trainDataActivityDescriptiveLabels <- activityDescriptiveLabelList$V2[unlist(trainDataActivityID)]
 
 #
@@ -51,14 +51,15 @@ trainDataSubjectID <- read.table("./UCI HAR Dataset/train/subject_train.txt", he
 names(trainDataSubjectID) <- c("SubjectID")
 
 #
-# Combine everything
+# Combine all the columns
 #
 
 trainData <- cbind(trainDataSubjectID,trainDataActivityID,
                    trainDataActivityDescriptiveLabels, trainData)
 
 #
-# Now add a flag to indicate this is training data
+# Now add a flag to indicate this is training data.  This might be
+# useful for future analysis (able to separate Test and Train data again).
 #
 
 dataType <- rep("Train",dim(trainData)[1])
@@ -67,7 +68,7 @@ trainData <- cbind(dataType,trainData)
 names(trainData)[4] <- c("DescriptiveLabels") # to have consistent name with test data below
 
 #
-# Now do similar processing for the test data.
+# Now do similar processing for the TEST data.
 #
 
 testData <- read.table("./UCI HAR Dataset/test/X_test.txt", header=FALSE, sep="")
@@ -82,6 +83,7 @@ names(testData) <- trainDataColumnNames$V2  # Same column names as for training 
 
 testDataActivityID <- read.table("./UCI HAR Dataset/test/y_test.txt", header=FALSE, sep="")
 names(testDataActivityID) <- c("ActivityID")
+# Create column that converts ActivityID to descriptive English name.
 testDataActivityDescriptiveLabels <- activityDescriptiveLabelList$V2[unlist(testDataActivityID)]
 
 #
@@ -91,11 +93,15 @@ testDataActivityDescriptiveLabels <- activityDescriptiveLabelList$V2[unlist(test
 testDataSubjectID <- read.table("./UCI HAR Dataset/test/subject_test.txt", header=FALSE, sep="")
 names(testDataSubjectID) <- c("SubjectID")
 
+#
+#combine all the columns
+#
 testData <- cbind(testDataSubjectID,testDataActivityID,
                   testDataActivityDescriptiveLabels,testData)
 
 #
-# Now add a flag to indicate this is test data
+# Now add a flag to indicate this is test data.  Might be useful to
+# be able to separate training and test data in the future.
 #
 
 dataType <- rep("Test",dim(testData)[1])
@@ -104,7 +110,8 @@ testData <- cbind(dataType,testData)
 names(testData)[4] <- c("DescriptiveLabels") #Make this header name consistent with training data above.
 
 #
-# Fuse the training and test data sets
+# Fuse the training and test data sets.  I labeled everything already above
+# and included a flag that indicates source of data (test or train).
 #
 
 finalData <- rbind(trainData,testData)
@@ -117,12 +124,14 @@ finalData <- rbind(trainData,testData)
 #
 # The list of feature names comes from "features.txt" which was loaded at the beginning of the 
 # script into "trainDataColumnNames"
+#
 
 meanIndex <- grep("mean",trainDataColumnNames$V2) #indices with "mean()" in description
 stdIndex <- grep("std",trainDataColumnNames$V2) #indices with "std()" in description
 
-combinedExtraction <- c(meanIndex,stdIndex)
+combinedExtraction <- c(meanIndex,stdIndex)  # list of column indices of means followed by std.
 
+#We have to shift the combinedExtraction index by 4 to take into account the added four columns in our intermediate dataset.
 finalData_MeanStd <- finalData[,c(1,2,3,4,combinedExtraction+4)]# preserve columns 1:4 and extract the mean&std deviation columns
 
 #
@@ -163,9 +172,9 @@ names(sumTotal) <- names(finalData_MeanStd)
 for (iEntry in 1:length(finalDataSubSetRes)){ 
         currStatsDF <- as.data.frame(finalDataSubSetRes[iEntry]) # Break list into data frames
         newRes <- colMeans(currStatsDF[5:dim(currStatsDF)[2]])
-        # construct a row of the tidy dataset.
+        # construct a row of the tidy dataset.  Add in the test/train flag, SubjectID, ActivityID, ActivityLabel, computed means vector-"newRes".
         sumRes <- c(as.character(currStatsDF[1,1]),currStatsDF[1,2],currStatsDF[1,3],as.character(currStatsDF[1,4]),newRes)
-        names(sumRes) <- names(finalData_MeanStd)
+        names(sumRes) <- names(finalData_MeanStd)  # add consistent/standard labels
         # add to master table we are accumulating for output
         sumTotal <- rbind(sumTotal,sumRes)
 } 
