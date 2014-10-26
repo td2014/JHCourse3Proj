@@ -19,5 +19,5 @@ In item 5, resulting tidy data set outputs the mean results for each of the vari
 without changing the column name.  The column value should be interpreted as being
 "the mean of"" the variable in a given column.
 
-The run_analysis.R script is fairly well documented (both in terms of explicit variable names and comments) which describe the processing steps in greater detail.
+The run_analysis.R script is documented (both in terms of explicit variable names and comments) which describe the processing steps in greater detail.
 

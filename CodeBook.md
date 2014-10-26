@@ -13,12 +13,12 @@ For the purposes of the tidy data set, I extracted only those features that cont
  
  [2] "ActivityID":  Integer
  This is the ID code of the activity being performed by the subject.
- 1 WALKING
- 2 WALKING_UPSTAIRS
- 3 WALKING_DOWNSTAIRS
- 4 SITTING
- 5 STANDING
- 6 LAYING
+ 1 WALKING  
+ 2 WALKING_UPSTAIRS  
+ 3 WALKING_DOWNSTAIRS  
+ 4 SITTING  
+ 5 STANDING  
+ 6 LAYING  
  
  [3] "DescriptiveLabels":  Factor/Character String
  This is the activity label (in English) corresponding to the ActivityID.
