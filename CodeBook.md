@@ -12,7 +12,7 @@ For the purposes of the tidy data set, I extracted only those features that cont
  Range 1-30.
  
  [2] "ActivityID":  Integer
- This is the ID code of the activity being performed by the subject.
+ This is the ID code of the activity being performed by the subject.  
  1 WALKING  
  2 WALKING_UPSTAIRS  
  3 WALKING_DOWNSTAIRS  
